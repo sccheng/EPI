@@ -73,6 +73,27 @@ func dutchFlagPartitionTwoPassesImproved(pivotIndex: Int, A: inout [Int]) {
     }
 }
 
+// This method results in O(1) space and O(n) time
+func dutchFlagPartitionOnePass(pivotIndex: Int, A: inout [Int]) {
+    let pivotValue = A[pivotIndex]
+    var smaller = 0
+    var equal = 0
+    var larger = A.count - 1
+    
+    while equal <= larger {
+        if A[equal] < pivotValue {
+            A.swapAt(smaller, equal)
+            smaller += 1
+            equal += 1
+        } else if A[equal] == pivotValue {
+            equal += 1
+        } else {
+            A.swapAt(larger, equal)
+            larger -= 1
+        }
+    }
+}
+
 // Testing
 var threeListsResult = [0, 1, 2, 0, 2, 1, 1]
 dutchFlagPartitionThreeLists(pivotIndex: 3, A: &threeListsResult)
@@ -88,3 +109,8 @@ var improvedTwoPassesResult = [0, 1, 2, 0, 2, 1, 1]
 dutchFlagPartitionTwoPassesImproved(pivotIndex: 3, A: &improvedTwoPassesResult)
 var improvedTwoPassesResult2 = [0, 1, 2, 0, 2, 1, 1]
 dutchFlagPartitionTwoPassesImproved(pivotIndex: 2, A: &improvedTwoPassesResult2)
+
+var onePassResult = [0, 1, 2, 0, 2, 1, 1]
+dutchFlagPartitionOnePass(pivotIndex: 3, A: &onePassResult)
+var onePassResult2 = [0, 1, 2, 0, 2, 1, 1]
+dutchFlagPartitionOnePass(pivotIndex: 2, A: &onePassResult2)
