@@ -14,6 +14,20 @@ func computeMaxProfitBruteForce(prices: [Int]) -> Int {
     return currentMax
 }
 
+// Optimal solution. O(1) space and O(n) time
+func computeMaxProfit(prices: [Int]) -> Int {
+    var currentMin = Int.max
+    var highestProfit = Int.min
+    for price in prices {
+        currentMin = min(currentMin, price)
+        highestProfit = max(highestProfit, price - currentMin)
+    }
+    return highestProfit
+}
+
 // Testing
 let dailyStockPrice = [310, 315, 275, 295, 260, 270, 290, 230, 255, 250]
-print(computeMaxProfitBruteForce(prices: dailyStockPrice))
+print(computeMaxProfitBruteForce(prices: dailyStockPrice)) //expected: 30
+
+let dailyStockPrice2 = [310, 315, 275, 295, 260, 270, 290, 230, 255, 250]
+print(computeMaxProfit(prices: dailyStockPrice2)) //expected: 30
