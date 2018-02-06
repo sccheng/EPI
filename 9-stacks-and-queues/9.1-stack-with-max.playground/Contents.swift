@@ -1,22 +1,27 @@
 // Design a stack that includes a max operation, in addition to push and pop. The max method should return the maximum value stored in the stack.
 // Hint: Use additional storage to track the maximum value.
 
-struct maxWithCount {
+struct MaxWithCount: CustomStringConvertible {
     var value: Int
     var count: Int
+    var description: String {
+        return "(max: \(value), count: \(count))"
+    }
 }
 
-struct stackWithMax {
+struct StackWithMax {
     var stack = [Int]()
-    var currentMax = [maxWithCount]()
+    var currentMax = [MaxWithCount]()
     
     mutating func push(newInt: Int) {
         stack.append(newInt)
-        if let lastMax = currentMax.last {
+        if currentMax.isEmpty {
+            currentMax.append(MaxWithCount(value: newInt, count: 1))
+        } else if let lastMax = currentMax.last {
             if newInt > lastMax.value {
-                currentMax.append(maxWithCount(value: newInt, count: 1))
+                currentMax.append(MaxWithCount(value: newInt, count: 1))
             } else if newInt == lastMax.value {
-                currentMax[currentMax.count - 1] = maxWithCount(value: newInt, count: lastMax.count + 1)
+                currentMax[currentMax.count - 1] = MaxWithCount(value: newInt, count: lastMax.count + 1)
             }
         }
     }
@@ -26,7 +31,7 @@ struct stackWithMax {
         if let lastMax = currentMax.last {
             if last == lastMax.value {
                 if lastMax.count > 1 {
-                    currentMax[currentMax.count - 1] = maxWithCount(value: lastMax.value, count: lastMax.count - 1)
+                    currentMax[currentMax.count - 1] = MaxWithCount(value: lastMax.value, count: lastMax.count - 1)
                 } else if lastMax.count == 1 {
                     currentMax.removeLast()
                 }
@@ -39,3 +44,32 @@ struct stackWithMax {
         return currentMax.last?.value
     }
 }
+
+// Testing
+var stackTesting = StackWithMax()
+stackTesting.push(newInt: 2)
+printStack(stackTesting)
+stackTesting.push(newInt: 2)
+printStack(stackTesting)
+stackTesting.push(newInt: 1)
+printStack(stackTesting)
+stackTesting.push(newInt: 4)
+printStack(stackTesting)
+stackTesting.pop()
+printStack(stackTesting)
+stackTesting.pop()
+printStack(stackTesting)
+stackTesting.pop()
+printStack(stackTesting)
+stackTesting.pop()
+printStack(stackTesting)
+stackTesting.push(newInt: 3)
+printStack(stackTesting)
+stackTesting.pop()
+printStack(stackTesting)
+
+// printStack
+func printStack(_ stack: StackWithMax) {
+    print(stack)
+}
+
