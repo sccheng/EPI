@@ -9,6 +9,8 @@ struct MaxWithCount: CustomStringConvertible {
     }
 }
 
+// For additional space to track max: Worst case O(n) if each added value is a max; best case O(1)
+// Push and pop are O(1) time (append, removeLast), max is O(1)
 struct StackWithMax {
     var stack = [Int]()
     var currentMax = [MaxWithCount]()

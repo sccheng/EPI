@@ -10,6 +10,7 @@ class ListNode<T> {
     }
 }
 
+// O(1) space, O(m + n) time (given l1 length = m, l2 length = n)
 func mergeTwoSortedLists(l1: ListNode<Int>?, l2: ListNode<Int>?) -> ListNode<Int>? {
     var result = ListNode(value: 0)
     var current = result
