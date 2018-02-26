@@ -17,9 +17,11 @@ class BinaryTreeNode {
 }
 
 func isBalanced(root: BinaryTreeNode?) -> Bool {
-    return isBalancedInitial(root: root)
+    return isBalancedOptimized(root: root).balanced
+    //return isBalancedInitial(root: root)
 }
 
+// intial implementation
 func isBalancedInitial(root: BinaryTreeNode?) -> Bool {
     guard let root = root else {
         return true
@@ -28,7 +30,7 @@ func isBalancedInitial(root: BinaryTreeNode?) -> Bool {
     let left = height(root.left, 0)
     let right = height(root.right, 0)
     
-    return left - right <= 1
+    return abs(left - right) <= 1
 }
 
 func height(_ node: BinaryTreeNode?, _ currentHeight: Int) -> Int {
@@ -36,6 +38,32 @@ func height(_ node: BinaryTreeNode?, _ currentHeight: Int) -> Int {
         return currentHeight + 1
     }
     return max(height(node.left, currentHeight + 1), height(node.right, currentHeight + 1))
+}
+
+// Optimized implementation
+func isBalancedOptimized(root: BinaryTreeNode?) -> BalanceStatusWithHeight {
+    guard let root = root else {
+         return BalanceStatusWithHeight(balanced: true, height: -1)
+    }
+    
+    let leftStatus = isBalancedOptimized(root: root.left)
+    if !leftStatus.balanced {
+        return leftStatus
+    }
+    
+    let rightStatus = isBalancedOptimized(root: root.right)
+    if !rightStatus.balanced {
+        return rightStatus
+    }
+    
+    let isBalanced = abs(leftStatus.height - rightStatus.height) <= 1
+    let height = max(leftStatus.height, rightStatus.height) + 1
+    return BalanceStatusWithHeight(balanced: isBalanced, height: height)
+}
+
+struct BalanceStatusWithHeight {
+    var balanced: Bool
+    var height: Int
 }
 
 // Testing
