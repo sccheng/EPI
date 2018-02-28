@@ -1,0 +1,10 @@
+Sorting: notes
+
+- Naive sorting algorithms take O(n^2) time
+- O(nlog(n)) algorithms: heapsort, merge sort, quicksort
+  - Heapsort: in-place but not stable
+  - Merge sort: stable but not in-place
+  - Quicksort: O(n^2) time in worst case
+
+- in-place sort: uses O(1) space
+- stable sort: equal entries appear in original orders
